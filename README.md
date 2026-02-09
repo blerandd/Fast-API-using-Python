@@ -1,159 +1,166 @@
-# ⚡ FastAPI Todo API (Python)
+# ⚡ FastAPI Todo API (Python + SQLite)
 
-A lightweight RESTful API built with **Python** and **FastAPI** that provides full **CRUD** functionality for managing Todo items.  
-This project demonstrates modern backend development practices including request validation, clean routing, and structured data models using **Pydantic**.
+A modern and well-structured RESTful API built with Python, FastAPI, and SQLAlchemy, delivering full CRUD functionality with persistent database storage.
 
-The application uses **in-memory storage**, making it ideal for learning, academic projects, and rapid API prototyping.
+The project applies real-world backend development principles such as clean architecture, robust database integration, advanced querying, soft delete mechanisms, statistics endpoints, data export capabilities, and automatically generated API documentation.
 
+Built to showcase backend engineering skills, support portfolio projects, and serve as a practical foundation for scalable API development.
 ---
 
 ## 🚀 Features
 
-- Create new Todo items  
-- Retrieve a Todo by ID  
-- Retrieve all Todos  
-- Limit results using query parameters  
-- Update existing Todos (partial updates supported)  
-- Delete Todos  
-- Request and response validation with Pydantic  
-- Priority system using Enum (**LOW**, **MEDIUM**, **HIGH**)  
-- Auto-generated API documentation  
+### Core Features
+- Create new Todo items
+- Retrieve all Todos
+- Retrieve a Todo by ID
+- Update Todos (PUT and PATCH)
+- Delete Todos (soft delete)
+- Restore deleted Todos
+- Persistent storage using SQLite
+- Auto-generated API documentation (Swagger and ReDoc)
+
+### Advanced Querying
+- Pagination using offset and limit
+- Filter by priority
+- Filter by status
+- Search Todos by keyword
+- Sorting by multiple fields
+- Ascending and descending ordering
+- Include or exclude deleted Todos
+
+### Extra Functionality
+- Todos statistics endpoint
+- Export Todos (JSON and CSV)
+- Health check endpoint
+- Enum-based priority system (LOW, MEDIUM, HIGH)
+- Enum-based status system (NEW, IN_PROGRESS, DONE)
 
 ---
 
 ## 🧱 Tech Stack
+- Python 3.9+
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- SQLite
+- Uvicorn
 
-- Python  
-- FastAPI  
-- Pydantic  
-- Uvicorn  
+---
+
+## 📁 Project Structure
+
+app/
+├── __init__.py
+├── main.py
+├── db.py
+├── models.py
+├── schemas.py
+├── todos.db
 
 ---
 
 ## 📦 Installation
 
-### Create virtual environment (recommended)
-
+Create a virtual environment  
 python -m venv venv
 
-### Activate it
+Activate the virtual environment  
+macOS / Linux: source venv/bin/activate  
+Windows: venv\Scripts\activate
 
-source venv/bin/activate    # macOS / Linux  
-venv\Scripts\activate       # Windows  
-
-### Install dependencies
-
-pip install fastapi uvicorn
+Install dependencies  
+pip install fastapi uvicorn sqlalchemy pydantic
 
 ---
 
 ## ▶️ Running the Application
 
-If the file is named `main.py` and the FastAPI instance is defined as:
-
+If the FastAPI instance is defined as:  
 api = FastAPI()
 
-Run the application with:
+Run the application:  
+uvicorn app.main:api --reload
 
-uvicorn main:api --reload
-
-The API will be available at:
-
+The API will be available at:  
 http://127.0.0.1:8000
 
 ---
 
 ## 📚 API Documentation
 
-FastAPI provides automatic interactive documentation:
+Swagger UI  
+http://127.0.0.1:8000/docs
 
-- Swagger UI: http://127.0.0.1:8000/docs  
-- ReDoc: http://127.0.0.1:8000/redoc  
+ReDoc  
+http://127.0.0.1:8000/redoc
 
 ---
 
 ## 🔗 API Endpoints
 
-### Get all Todos
+System  
+GET /health – Health check
 
-GET /todos  
-
-Optional query parameter:
-
-GET /todos?first_n=3
+Todos  
+GET /todos – List Todos (filters, search, pagination, sorting)  
+POST /todos – Create Todo  
+GET /todos/{todo_id} – Get Todo by ID  
+PUT /todos/{todo_id} – Replace Todo  
+PATCH /todos/{todo_id} – Update Todo  
+PATCH /todos/{todo_id}/status – Update Todo status  
+DELETE /todos/{todo_id} – Soft delete Todo  
+POST /todos/{todo_id}/restore – Restore deleted Todo  
+GET /todos/stats – Todos statistics  
+GET /todos/export – Export Todos (JSON or CSV)
 
 ---
 
-### Get Todo by ID
+## 📝 Example Request
 
-GET /todos/{todo_id}
-
----
-
-### Create a new Todo
-
-POST /todos
-
-Request body example:
-
+Create Todo  
 {
-  "todo_name": "Study",
-  "todo_description": "Prepare for upcoming exam",
-  "priority": 1
+  "todo_name": "Study FastAPI",
+  "todo_description": "Prepare for backend exam",
+  "priority": 1,
+  "status": "NEW"
 }
 
-Priority values:
-
-1 → HIGH  
-2 → MEDIUM  
-3 → LOW  
-
----
-
-### Update a Todo
-
-PUT /todos/{todo_id}
-
-Example:
-
-{
-  "todo_description": "Read chapter 6",
-  "priority": 2
-}
+Priority Values  
+1 = HIGH  
+2 = MEDIUM  
+3 = LOW
 
 ---
 
-### Delete a Todo
+## 📊 Statistics Endpoint
 
-DELETE /todos/{todo_id}
-
----
-
-## 🧪 Sample Data
-
-The application initializes with a predefined list of Todo items stored in memory, allowing immediate testing without additional setup.
+The /todos/stats endpoint returns:
+- Total Todos
+- High, Medium, and Low priority counts
+- Option to include or exclude deleted Todos
 
 ---
 
-## ⚠️ Limitations
-
-- Data is stored only in memory  
-- All data resets when the server restarts  
-- Not intended for production use without persistent storage  
+## ⚠️ Notes
+- Uses SQLite for persistent storage
+- Database file: todos.db
+- Data persists between server restarts
 
 ---
 
 ## 🚧 Future Improvements
-
-- Database integration (SQLite / PostgreSQL / MySQL)  
-- Authentication and authorization  
-- Pagination and filtering  
-- Unit and integration tests  
+- Authentication and authorization (JWT)
+- Role-based access (Admin/User)
+- Pagination metadata
+- Unit and integration tests
+- Docker support
+- PostgreSQL / MySQL support
 
 ---
 
 ## 👤 Author
 
-**Blerand Cupi**  
-Computer Science & Technology Student  
-FastAPI • Python • Backend Development
+Blerand Cupi  
+Computer Science and Technology Student  
+
+FastAPI • Python • Backend Development  
