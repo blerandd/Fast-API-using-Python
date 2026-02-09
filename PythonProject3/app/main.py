@@ -26,7 +26,7 @@ from .schemas import (
     ExportFormat,
 )
 
-API_KEY = os.getenv("TODO_API_KEY", "blerand123")
+API_KEY = os.getenv("TODO_API_KEY", "name_here")
 
 
 api = FastAPI()
